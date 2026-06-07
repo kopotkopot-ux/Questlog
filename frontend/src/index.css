@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold
+           bg-quest-600 text-white hover:bg-quest-700 focus:ring-2 focus:ring-quest-500
+           focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold
+           bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100
+           dark:hover:bg-gray-600 transition-colors;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold
+           bg-red-600 text-white hover:bg-red-700 transition-colors;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600
+           bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100
+           focus:ring-2 focus:ring-quest-500 focus:border-transparent outline-none transition;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200
+           dark:border-gray-800 p-6;
+  }
+
+  .badge-easy {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-easy-light text-green-800 dark:bg-green-900/30 dark:text-green-400;
+  }
+
+  .badge-medium {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-medium-light text-amber-800 dark:bg-amber-900/30 dark:text-amber-400;
+  }
+
+  .badge-hard {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+           bg-hard-light text-red-800 dark:bg-red-900/30 dark:text-red-400;
+  }
+}
+
+/* Gamified progress bar shimmer */
+.progress-shimmer {
+  background: linear-gradient(90deg, #6366f1 0%, #818cf8 50%, #6366f1 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

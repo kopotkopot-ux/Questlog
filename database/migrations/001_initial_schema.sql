@@ -1,0 +1,3 @@
+-- Migration 001: Initial QuestLog schema
+-- Apply with: mysql -u root -p < database/schema.sql
+-- This file marks migration version 001. The full schema is in database/schema.sql
