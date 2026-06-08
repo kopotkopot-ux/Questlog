@@ -49,8 +49,15 @@ const taskIdValidator = [
 const taskQueryValidator = [
   query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
   query('limit').optional().isInt({ min: 1, max: 100 }).withMessage('Limit must be 1-100'),
-  query('status').optional().isIn(['pending', 'completed']).withMessage('Invalid status filter'),
-  query('priority').optional().isIn(['easy', 'medium', 'hard']).withMessage('Invalid priority filter'),
+  query('status')
+  .optional({ checkFalsy: true })
+  .isIn(['pending', 'completed'])
+  .withMessage('Invalid status filter'),
+
+  query('priority')
+  .optional({ checkFalsy: true })
+  .isIn(['easy', 'medium', 'hard'])
+  .withMessage('Invalid priority filter'),
   query('search').optional().trim().isLength({ max: 100 }),
 ];
 
