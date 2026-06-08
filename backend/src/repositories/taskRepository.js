@@ -34,6 +34,18 @@ const taskRepository = {
    * Get paginated tasks for a user with optional filters (FR-006)
    */
   async findByUserId(userId, { page = 1, limit = 10, status, priority, search = '' }) {
+    
+    console.log('findByUserId params:', {
+    userId,
+    page,
+    limit,
+    status,
+    priority,
+    search,
+    pageType: typeof page,
+    limitType: typeof limit
+    });
+    
     const offset = (page - 1) * limit;
     let whereClause = 'WHERE user_id = ?';
     const params = [userId];
