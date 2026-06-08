@@ -48,13 +48,16 @@ const notificationRepository = {
       params
     );
 
-    params.push(limit, offset);
-    const [rows] = await pool.execute(
-      `SELECT notification_id, user_id, message, notification_status, notification_date
-       FROM notifications ${whereClause}
-       ORDER BY notification_date DESC LIMIT ? OFFSET ?`,
-      params
-    );
+    const safeLimit = Number(limit);
+    const safeOffset = Number(offset);
+
+    const [rows] = await pool.query(
+    `SELECT notification_id, user_id, message, notification_status, notification_date
+    FROM notifications ${whereClause}
+    ORDER BY notification_date DESC
+    LIMIT ${safeLimit} OFFSET ${safeOffset}`,
+    params
+  );
 
     const total = countResult[0].total;
     return { notifications: rows, total, page, limit, totalPages: Math.ceil(total / limit) };
@@ -116,18 +119,25 @@ const notificationRepository = {
          WHERE n.message LIKE ? OR u.username LIKE ?`
       : `SELECT COUNT(*) as total FROM notifications`;
 
+    const safeLimit = Number(limit);
+    const safeOffset = Number(offset);
+
     const dataQuery = search
-      ? `SELECT n.notification_id, n.user_id, u.username, n.message, n.notification_status, n.notification_date
-         FROM notifications n JOIN users u ON n.user_id = u.user_id
-         WHERE n.message LIKE ? OR u.username LIKE ?
-         ORDER BY n.notification_date DESC LIMIT ? OFFSET ?`
-      : `SELECT n.notification_id, n.user_id, u.username, n.message, n.notification_status, n.notification_date
-         FROM notifications n JOIN users u ON n.user_id = u.user_id
-         ORDER BY n.notification_date DESC LIMIT ? OFFSET ?`;
+    ? `SELECT n.notification_id, n.user_id, u.username, n.message, n.notification_status, n.notification_date
+     FROM notifications n
+     JOIN users u ON n.user_id = u.user_id
+     WHERE n.message LIKE ? OR u.username LIKE ?
+     ORDER BY n.notification_date DESC
+     LIMIT ${safeLimit} OFFSET ${safeOffset}`
+    : `SELECT n.notification_id, n.user_id, u.username, n.message, n.notification_status, n.notification_date
+     FROM notifications n
+     JOIN users u ON n.user_id = u.user_id
+     ORDER BY n.notification_date DESC
+     LIMIT ${safeLimit} OFFSET ${safeOffset}`;
 
     const [[countResult], [rows]] = await Promise.all([
-      pool.execute(countQuery, search ? [searchTerm, searchTerm] : []),
-      pool.execute(dataQuery, search ? [searchTerm, searchTerm, limit, offset] : [limit, offset]),
+    pool.execute(countQuery, search ? [searchTerm, searchTerm] : []),
+    pool.execute(dataQuery, search ? [searchTerm, searchTerm] : []),
     ]);
 
     return {

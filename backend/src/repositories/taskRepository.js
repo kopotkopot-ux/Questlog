@@ -70,8 +70,8 @@ const taskRepository = {
       countParams
     );
 
-    const safeLimit = Number(limit);
-const safeOffset = Number(offset);
+    const safeLimit = Math.max(1, Number(limit) || 10);
+    const safeOffset = Math.max(0, Number(offset) || 0);
 
 const [rows] = await pool.query(
   `SELECT task_id, user_id, title, description, priority_level, deadline, status, created_at, updated_at
