@@ -15,9 +15,7 @@ function errorHandler(err, req, res, _next) {
     message = 'Validation failed';
   }
 
-  if (process.env.NODE_ENV !== 'production') {
-    console.error('[Error]', err);
-  }
+  console.error('[Error]', err);
 
   res.status(statusCode).json({
     success: false,
