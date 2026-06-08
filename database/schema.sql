@@ -115,3 +115,4 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
 SHOW TABLES;
 SELECT DATABASE();
 SHOW TABLES;
+DESCRIBE notifications;
