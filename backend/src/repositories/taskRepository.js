@@ -45,7 +45,7 @@ const taskRepository = {
     pageType: typeof page,
     limitType: typeof limit
     });
-    
+
     const offset = (page - 1) * limit;
     let whereClause = 'WHERE user_id = ?';
     const params = [userId];
@@ -70,17 +70,19 @@ const taskRepository = {
       countParams
     );
 
-    params.push(limit, offset);
-    const [rows] = await pool.execute(
-      `SELECT task_id, user_id, title, description, priority_level, deadline, status, created_at, updated_at
-       FROM tasks ${whereClause}
-       ORDER BY
-         CASE WHEN deadline IS NULL THEN 1 ELSE 0 END,
-         deadline ASC,
-         created_at DESC
-       LIMIT ? OFFSET ?`,
-      params
-    );
+    const safeLimit = Number(limit);
+const safeOffset = Number(offset);
+
+const [rows] = await pool.query(
+  `SELECT task_id, user_id, title, description, priority_level, deadline, status, created_at, updated_at
+   FROM tasks ${whereClause}
+   ORDER BY
+     CASE WHEN deadline IS NULL THEN 1 ELSE 0 END,
+     deadline ASC,
+     created_at DESC
+   LIMIT ${safeLimit} OFFSET ${safeOffset}`,
+  params
+);
 
     const total = countResult[0].total;
     return { tasks: rows, total, page, limit, totalPages: Math.ceil(total / limit) };
