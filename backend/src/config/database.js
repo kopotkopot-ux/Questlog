@@ -5,6 +5,7 @@
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT, 10) || 3306,
@@ -18,6 +19,10 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 0,
   timezone: '+00:00',
 });
+
+console.log("DB_HOST:", process.env.DB_HOST);
+console.log("DB_PORT:", process.env.DB_PORT);
+console.log("DB_NAME:", process.env.DB_NAME);
 
 /**
  * Test database connectivity on startup

@@ -2,11 +2,11 @@
 -- MySQL Workbench 8.0 compatible
 -- Run this script to create the complete database structure
 
-CREATE DATABASE IF NOT EXISTS questlog
+CREATE DATABASE IF NOT EXISTS defaultdb
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE questlog;
+USE defaultdb;
 
 -- ============================================================
 -- USERS TABLE
@@ -112,4 +112,6 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
     ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+SHOW TABLES;
+SELECT DATABASE();
 SHOW TABLES;
